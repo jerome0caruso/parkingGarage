@@ -24,28 +24,39 @@ class ParkingGarage():
             self.currentTicket[self.tickets + 1] = {'Paid': False}
 
     def payForParking(self):
+
         while True:
             payment = input("Did you enter money? Y/N: ").lower()
             if payment == 'y':
                 self.eachTicket = int(input("What ticket would you like to pay for?: "))
-                self.currentTicket[self.eachTicket] = {'Paid': True}
-                print(f"You ticket #{self.eachTicket} has been paid and you have 15 minutes to leave!")
-                break
+                if self.eachTicket in self.currentTicket:
+                        self.currentTicket[self.eachTicket] = {'Paid': True}
+                        print(f"You ticket #{self.eachTicket} has been paid and you have 15 minutes to leave!")
+                        break
+                else:
+                    print("That ticket is not available")    
+                    return
+            else:
+                print("You must go back and pay please!")
             print("Please enter money!!!")
 
     def leaveGarage(self):
         driver_ticket = int(input("What ticket did you have?: "))
-
-        if self.currentTicket[driver_ticket]["Paid"] == True:
-             print("Thank you, have a nice day!")
-             return True
+        if driver_ticket in self.currentTicket:
+            if self.currentTicket[driver_ticket]["Paid"] == True:
+                print("Thank you, have a nice day!")
+                return True
+            else:
+                print("You must go back and pay please!")
         else:
-            print("You must go back and pay please!")
+            print("That ticket is not available")    
+            return
                 
 def driver():
+    possible_entries = ["take", "pay", "leave", "quit"]
     driver_1 = ParkingGarage()
     driver_1.parkingSpacelogic()
-    driver_input = input("What would you like to do? type 'take' to take a ticket, type 'pay' to pay a for parking or type 'leave' to exit the garage: ").lower().strip()
+    driver_input = driver_input = input("What would you like to do? type 'take' to take a ticket, type 'pay' to pay a for parking or type 'leave' to exit the garage: ").lower().strip()
     while True:
         if driver_input == 'take':
             driver_1.takeTicket()
@@ -62,5 +73,8 @@ def driver():
             driver_input = input("What would you like to do? type 'take' to take a ticket, type 'pay' to pay a for parking or type 'leave' to exit the garage: ").lower().strip()
         if driver_input == 'quit':
             break
+        elif driver_input not in possible_entries:
+            print("Not valid")
+            driver_input = input("What would you like to do? type 'take' to take a ticket, type 'pay' to pay a for parking or type 'leave' to exit the garage: ").lower().strip()
 
 driver()
