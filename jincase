@@ -1,7 +1,7 @@
 
 class ParkingGarage():
 
-    def __init__(self, tickets = [], parkingSpaces = [], currentTicket = {}, eachTicket = 0):
+    def __init__(self, tickets = 50, parkingSpaces = [], currentTicket = {}, eachTicket = 0):
         self.tickets = tickets
         self.parkingSpaces = parkingSpaces
         self.currentTicket = currentTicket
@@ -10,18 +10,18 @@ class ParkingGarage():
     def parkingSpacelogic(self):
         for space in range(0, 50):
             self.parkingSpaces.append(space)
-            self.tickets.append(space)
 
     def takeTicket(self):
-        self.tickets.pop()
-        print(f"Tickets left: {len(self.tickets)}")
+        
+        self.tickets -= 1
+        print(f"Tickets left: {self.tickets}")
         if len(self.parkingSpaces) <= 1:
             print("There are no more spots left!")
         else:
             self.parkingSpaces.pop()
-            print(f"taking ticket #{len(self.tickets) + 1}")
+            print(f"taking ticket #{self.tickets + 1}")
             print(f"Parking Spaces left: {len(self.parkingSpaces)}")
-            self.currentTicket[len(self.tickets) + 1] = {'Paid': False}
+            self.currentTicket[self.tickets + 1] = {'Paid': False}
 
     def payForParking(self):
 
@@ -45,10 +45,8 @@ class ParkingGarage():
         if driver_ticket in self.currentTicket:
             if self.currentTicket[driver_ticket]["Paid"] == True:
                 amountOfSpaces = len(self.parkingSpaces)
-                ticketLeaving = len(self.tickets)
-                self.parkingSpaces.append(self.eachTicket)
-                self.tickets.append(self.eachTicket)
-                print("Thank you, have a nice day!")
+                self.parkingSpaces.append(amountOfSpaces)
+                print("Thank you, have a nice day!", self.parkingSpaces)
                 return True
             else:
                 print("You must go back and pay please!")
